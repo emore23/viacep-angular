@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="card bg-light">
+    <div class="card-body">
+      <h5 class="card-title">Consultation History</h5>
+
+      <app-history-table
+        [history]="history"
+        (restartSearchEvent)="restartSearch($event)"
+      ></app-history-table>
+    </div>
+
+    <div class="card-footer text-muted">
+      The consultation history is stored in the browser, so clearing browser
+      data will result in data loss.
+    </div>
+  </div>
+</div>

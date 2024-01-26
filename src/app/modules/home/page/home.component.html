@@ -1,0 +1,80 @@
+<div class="container">
+  <h3>Buscar por CEP</h3>
+
+  <div class="content">
+    <div class="form-content">
+      <form [formGroup]="form">
+        <div class="form-group">
+          <div class="search">
+            <input
+              type="text"
+              formControlName="cep"
+              mask="00000-000"
+              class="form-control"
+              placeholder="Começe digitando um CEP válido!"
+            />
+            <small
+              class="form-text text-danger"
+              *ngIf="!cep?.valid && cep?.touched"
+            >
+              Preencha o CEP para efetuar a busca.
+            </small>
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary rounded"
+            [disabled]="!form.valid"
+            (click)="searchCep()"
+          >
+            <i class="fas fa-search"></i> Visualizar
+          </button>
+        </div>
+
+        <div class="btn-group" role="group" aria-label="Exemplo básico">
+          <button
+            type="button"
+            class="btn btn-info rounded"
+            placement="bottom"
+            ngbTooltip="Visualize o histórico de consultas"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            (click)="showHistory()"
+          >
+            <i class="fas fa-history"></i> Visualizar consultas realizadas
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger rounded"
+            placement="right"
+            (click)="clearHistory()"
+          >
+            <i class="fas fa-trash"></i> Limpar consultas
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <app-modal [isOpen]="isOpen$ | async" (closeModalEvent)="closeCepModal()">
+    <div>
+      <h3 class="modal-title fs-5">Dados retornados</h3>
+    </div>
+  </app-modal>
+
+  <br />
+  <!--
+  <app-cep-card
+    *ngIf="hasCep()"
+    [cepRecuperado]="cepRecuperado"
+    (esconderCardEvent)="esconderCard($event)"
+  >
+  </app-cep-card>
+
+  <br />
+
+  <app-historico-consultas
+    [ngbCollapse]="!isHistoricoVisivel"
+    [historico]="getHistoricoConsultas()"
+    (reproduzirConsultaEvent)="reproduzirConsulta($event)"
+  ></app-historico-consultas> -->
+</div>

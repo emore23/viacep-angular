@@ -1,0 +1,15 @@
+<div *ngIf="isOpen" class="flex modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="content">
+        <ng-content></ng-content>
+      </div>
+      <div class="footer">
+        <button class="btn btn-success" (click)="favorite()">
+          Favoritar Endereço
+        </button>
+        <button class="btn btn-secondary" (click)="close()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
