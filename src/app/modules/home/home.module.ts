@@ -15,7 +15,7 @@ import { HistoryComponent } from '../history/page/history.component';
 import { CepCardComponent } from './components/cep-card/cep-card.component';
 
 // Services
-import { CepService } from './services/cep.service';
+import { HttpService } from 'src/app/core/services/http.service';
 
 // Pipe
 import { JsonPipe } from 'src/app/core/pipes/json.pipe';
@@ -39,7 +39,7 @@ import { ModalComponent } from './components/modal/modal.component';
     HomeRoutingModule,
     NgxMaskModule.forRoot(),
   ],
-  providers: [CepService],
+  providers: [HttpService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HomeModule {}

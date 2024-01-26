@@ -4,43 +4,42 @@
   <div class="content">
     <div class="form-content">
       <form [formGroup]="form">
-        <div class="form-group">
-          <div class="search">
-            <input
-              type="text"
-              formControlName="cep"
-              mask="00000-000"
-              class="form-control"
-              placeholder="Começe digitando um CEP válido!"
-            />
-            <small
-              class="form-text text-danger"
-              *ngIf="!cep?.valid && cep?.touched"
+        <form [formGroup]="form" (ngSubmit)="searchCep()">
+          <div class="form-group">
+            <div class="search">
+              <input
+                type="text"
+                formControlName="cep"
+                mask="00000-000"
+                class="form-control"
+                placeholder="Começe digitando um CEP válido!"
+              />
+              <small
+                class="form-text text-danger"
+                *ngIf="!cep?.valid && cep?.touched"
+              >
+                Preencha o CEP para efetuar a busca.
+              </small>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-info rounded"
+              [disabled]="!form.valid"
             >
-              Preencha o CEP para efetuar a busca.
-            </small>
+              <i class="fas fa-search"></i> Visualizar
+            </button>
           </div>
-          <button
-            type="button"
-            class="btn btn-primary rounded"
-            [disabled]="!form.valid"
-            (click)="searchCep()"
-          >
-            <i class="fas fa-search"></i> Visualizar
-          </button>
-        </div>
+        </form>
 
         <div class="btn-group" role="group" aria-label="Exemplo básico">
           <button
             type="button"
-            class="btn btn-info rounded"
+            class="btn btn-primary rounded"
             placement="bottom"
             ngbTooltip="Visualize o histórico de consultas"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
             (click)="showHistory()"
           >
-            <i class="fas fa-history"></i> Visualizar consultas realizadas
+            <i class="fas fa-history"></i> Visualizar endereços favoritados
           </button>
           <button
             type="button"
@@ -58,23 +57,9 @@
   <app-modal [isOpen]="isOpen$ | async" (closeModalEvent)="closeCepModal()">
     <div>
       <h3 class="modal-title fs-5">Dados retornados</h3>
+      <app-cep-card [cepRetrieved]="cepRetrieved"></app-cep-card>
     </div>
   </app-modal>
 
   <br />
-  <!--
-  <app-cep-card
-    *ngIf="hasCep()"
-    [cepRecuperado]="cepRecuperado"
-    (esconderCardEvent)="esconderCard($event)"
-  >
-  </app-cep-card>
-
-  <br />
-
-  <app-historico-consultas
-    [ngbCollapse]="!isHistoricoVisivel"
-    [historico]="getHistoricoConsultas()"
-    (reproduzirConsultaEvent)="reproduzirConsulta($event)"
-  ></app-historico-consultas> -->
 </div>

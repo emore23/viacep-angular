@@ -7,7 +7,7 @@ import { environment } from "src/environments/environment";
 import { StorageService } from "src/app/core/services/storage.service";
 
 @Injectable()
-export class CepService {
+export class HttpService {
   apiEndpoint: string = "https://viacep.com.br/ws/$cep/json";
   historyToken: string = environment.historyToken;
 

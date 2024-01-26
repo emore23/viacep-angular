@@ -1,12 +1,19 @@
+// Dependencies
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CodeProps } from 'src/app/shared/models/code.model';
-import { CepService } from '../services/cep.service';
-import { HistoryProps } from 'src/app/shared/models/history.model';
-import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { ModalService } from '../components/modal/modal.service';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
+
+// Models
+import { CodeProps } from 'src/app/shared/models/code.model';
+
+// Components
+import { HistoryProps } from 'src/app/shared/models/history.model';
+import { ModalService } from '../components/modal/modal.service';
+
+// Services
+import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +22,7 @@ import { Observable } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   form!: FormGroup;
-  cepRetrieved: CodeProps | undefined;
+  cepRetrieved!: CodeProps;
   openModal: boolean = true;
   isVisibleHistory: boolean = false;
 
@@ -23,12 +30,10 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private cepService: CepService,
+    private httpService: HttpService,
     private router: Router,
     private modalService: ModalService
-  ) {
-    this.initForm();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -47,7 +52,7 @@ export class HomeComponent implements OnInit {
     if (this.form?.valid) {
       const cepValue = this.cep?.value;
 
-      this.cepService.search(cepValue).subscribe(
+      this.httpService.search(cepValue).subscribe(
         (dados: CodeProps) => {
           if (dados.erro) {
             this.handleSearchError(cepValue);
@@ -66,13 +71,13 @@ export class HomeComponent implements OnInit {
   }
 
   handleSearchSuccess(data: CodeProps): void {
-    this.cepService.postHistory(this.cep?.value, false);
+    this.httpService.postHistory(this.cep?.value, false);
     this.cepRetrieved = data;
     this.cep?.reset();
   }
 
   handleSearchError(cepValue: string): void {
-    this.cepService.postHistory(cepValue, true);
+    this.httpService.postHistory(cepValue, true);
     this.onError(
       'Erro',
       `Não foi possível localizar o CEP informado (${cepValue})`
@@ -84,37 +89,29 @@ export class HomeComponent implements OnInit {
     this.searchCep();
   }
 
-  esconderCard(esconder: boolean): void {
-    if (esconder) {
-      this.cepRetrieved = undefined;
-    }
-  }
-
   showHistory(): void {
-    if (this.getHistoricoConsultas().length > 0) {
+    if (this.getHistoricalConsultations().length > 0) {
       this.isVisibleHistory = !this.isVisibleHistory;
-      this.router.navigate(['/history']);
+      if (this.isVisibleHistory) {
+        this.router.navigate(['/history']);
+      }
     } else {
-      this.onWarning('Alerta', 'Ainda não há nenhum histórico de consulta');
+      this.onWarning('Alerta', 'Ainda não há nenhum endereço favoritado!');
     }
   }
 
   clearHistory(): void {
-    this.cepService.clearHistoryFetch();
-    this.onSuccess('Sucesso', 'Histórico removido com sucesso!');
+    this.httpService.clearHistoryFetch();
+    this.onSuccess('Sucesso', 'Histórico de favoritos removido com sucesso!');
     this.isVisibleHistory = false;
   }
 
-  getHistoricoConsultas(): HistoryProps[] {
-    return this.cepService.fetchHistory();
-  }
-
-  hasCep(): boolean {
-    return this.cepRetrieved !== null;
+  getHistoricalConsultations(): HistoryProps[] {
+    return this.httpService.fetchHistory();
   }
 
   onError(title: string, message: string): void {
-    this.cepRetrieved = undefined;
+    this.cepRetrieved.erro = true;
     this.cep?.reset();
     Swal.fire(title, message, 'error');
   }
