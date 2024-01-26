@@ -10,6 +10,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 export class HttpService {
   apiEndpoint: string = 'https://viacep.com.br/ws/$cep/json';
   historyToken: string = environment.historyToken;
+  chosenPlaces: string = environment.chosenPlaces;
 
   constructor(
     private httpClient: HttpClient,

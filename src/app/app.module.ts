@@ -1,7 +1,7 @@
 // Dependencies
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 // Modules
@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 // Services
 import { HttpService } from './core/services/http.service';
 import { FavoriteCepService } from './core/services/favorites.service';
+import { ModalService } from './shared/components/modal/modal.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,9 +24,10 @@ import { FavoriteCepService } from './core/services/favorites.service';
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [HttpService, FavoriteCepService],
+  providers: [HttpService, FavoriteCepService, ModalService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

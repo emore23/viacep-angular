@@ -15,7 +15,7 @@ import { CepCardComponent } from './components/cep-card/cep-card.component';
 
 // Pipe
 import { JsonPipe } from 'src/app/core/pipes/json.pipe';
-import { ModalComponent } from './components/modal/modal.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,11 +23,11 @@ import { ModalComponent } from './components/modal/modal.component';
     SelectBoxComponent,
     SelectBoxComponent,
     InputComponent,
-    ModalComponent,
     CepCardComponent,
     JsonPipe,
   ],
   imports: [
+    SharedModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,

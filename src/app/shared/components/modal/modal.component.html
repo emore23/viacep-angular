@@ -1,14 +1,14 @@
 <div *ngIf="isOpen" class="flex modal">
   <div class="modal">
-    <div class="modal-content">
+    <div class="modal-content col-sm-6">
       <div class="content">
         <ng-content></ng-content>
       </div>
       <div class="footer">
-        <button class="btn btn-success" (click)="favoriteAddress()">
+        <button *ngIf="showButtons" class="btn btn-success" (click)="favoriteAddress()">
           Favoritar Endereço
         </button>
-        <button class="btn btn-secondary" (click)="close()">Voltar</button>
+        <button *ngIf="showButtons" class="btn btn-secondary" (click)="close()">Voltar</button>
       </div>
     </div>
   </div>

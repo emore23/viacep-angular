@@ -39,27 +39,38 @@
             ngbTooltip="Visualize o histórico de consultas"
             (click)="showHistory()"
           >
-            <i class="fas fa-history"></i> Visualizar endereços favoritados
+            Visualizar endereços favoritados
           </button>
           <button
             type="button"
             class="btn btn-danger rounded"
             placement="right"
-            (click)="clearHistory()"
+            (click)="createNewAddress()"
           >
-            <i class="fas fa-trash"></i> Limpar consultas
+            <i class="fas fa-trash"></i> Criar endereço nos favoritos
           </button>
         </div>
       </form>
     </div>
   </div>
 
-  <app-modal [isOpen]="isOpen$ | async" (closeModalEvent)="closeCepModal()" (favoriteModalEvent)="favoriteAddress()">
+  <app-modal
+    showButtons
+    [isOpen]="isOpen$ | async"
+    (closeModalEvent)="closeModal()"
+    (favoriteModalEvent)="favoriteAddress()"
+  >
     <div *ngIf="cepRetrieved">
       <h3 class="modal-title fs-5">Dados retornados</h3>
       <app-cep-card [cepRetrieved]="cepRetrieved"></app-cep-card>
     </div>
   </app-modal>
 
-  <br />
+  <app-modal
+    [isOpen]="isOpenAddressForm$ | async"
+    (closeModalEvent)="closeModal()"
+    (favoriteModalEvent)="favoriteAddress()"
+  >
+    <app-address-form></app-address-form>
+  </app-modal>
 </div>

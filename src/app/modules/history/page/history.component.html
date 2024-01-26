@@ -1,11 +1,14 @@
 <div class="container">
   <div class="header">
-    <button class="btn btn-primary" (click)="goBack()">Voltar</button>
+    <button class="btn btn-outline-primary" (click)="goBack()">Voltar</button>
     <div class="card bg-light">
       <div class="flex card-body text-center">
         <h3 class="card-title">Histórico de Favoritos</h3>
       </div>
     </div>
+    <button type="button" class="btn btn-outline-info" (click)="showModalNewAddress()">
+      Criar um novo favorito
+    </button>
   </div>
 
   <div class="cards">
@@ -15,4 +18,12 @@
       (removeFromFavoritesEvent)="removeFromFavorites(item)"
     ></app-city-card>
   </div>
+
+  <app-modal
+    [isOpen]="isOpenAddressForm$ | async"
+    (closeModalEvent)="closeModal()"
+    (favoriteModalEvent)="favoriteAddress()"
+  >
+    <app-address-form></app-address-form>
+  </app-modal>
 </div>

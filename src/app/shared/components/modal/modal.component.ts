@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FavoriteCepService } from 'src/app/core/services/favorites.service';
 import { CodeProps } from 'src/app/shared/models/code.model';
-import { FavoriteCepService } from '../../../../core/services/favorites.service';
 
 @Component({
   selector: 'app-modal',
@@ -13,6 +13,8 @@ export class ModalComponent implements OnInit {
 
   @Output() closeModalEvent = new EventEmitter<void>();
   @Output() favoriteModalEvent = new EventEmitter<void>();
+
+  showButtons: boolean = false;
 
   constructor(private favoriteCepService: FavoriteCepService) {}
 

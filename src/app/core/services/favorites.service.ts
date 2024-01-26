@@ -9,6 +9,14 @@ export class FavoriteCepService {
 
   constructor(private storageService: StorageService) {}
 
+  saveAddress(address: any): void {
+    const favoritedAddresses = this.getFavorites();
+
+    favoritedAddresses.push(address);
+
+    this.setFavorites(favoritedAddresses);
+  }
+
   public addToFavorites(cepRetrieved: CodeProps | any): boolean {
     if (!cepRetrieved || !this.isValidCepRetrieved(cepRetrieved)) {
       return false;

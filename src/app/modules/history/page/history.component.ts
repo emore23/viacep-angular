@@ -6,8 +6,11 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { FavoriteCepService } from 'src/app/core/services/favorites.service';
+import { ModalService } from 'src/app/shared/components/modal/modal.service';
 import { CodeProps } from 'src/app/shared/models/code.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-history',
@@ -16,17 +19,40 @@ import { CodeProps } from 'src/app/shared/models/code.model';
 })
 export class HistoryComponent implements OnInit {
   @Output() restartSearchEvent = new EventEmitter<Event>();
+  isOpenAddressForm$: Observable<boolean> =
+    this.modalService.isOpenAddressForm$;
 
   constructor(
     private router: Router,
     private favoriteCepService: FavoriteCepService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private modalService: ModalService
   ) {}
 
   favorites: CodeProps[] = [];
 
   ngOnInit(): void {
     this.favorites = this.favoriteCepService.getFavorites();
+  }
+
+  closeModal() {
+    this.modalService.close();
+  }
+
+  showModalNewAddress() {
+    this.modalService.openAddressForm();
+  }
+
+  favoriteAddress(): void {
+    const favoritedSuccessfully = this.favoriteCepService.addToFavorites(
+      this.favorites
+    );
+
+    if (favoritedSuccessfully) {
+      this.onSuccess('Sucesso', 'Endereço favoritado com sucesso!');
+    } else {
+      this.onWarning('Aviso', 'Este endereço já foi favoritado anteriormente.');
+    }
   }
 
   goBack() {
@@ -48,5 +74,13 @@ export class HistoryComponent implements OnInit {
       this.favorites.splice(indexToRemove, 1);
       this.cdr.detectChanges();
     }
+  }
+
+  onWarning(title: string, message: string): void {
+    Swal.fire(title, message, 'warning');
+  }
+
+  onSuccess(title: string, message: string): void {
+    Swal.fire(title, message, 'success');
   }
 }

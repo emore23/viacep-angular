@@ -10,13 +10,11 @@ import { CodeProps } from 'src/app/shared/models/code.model';
 
 // Components
 import { HistoryProps } from 'src/app/shared/models/history.model';
-import { ModalService } from '../components/modal/modal.service';
 
 // Services
 import { HttpService } from 'src/app/core/services/http.service';
 import { FavoriteCepService } from '../../../core/services/favorites.service';
-import { environment } from 'src/environments/environment';
-import { StorageService } from 'src/app/core/services/storage.service';
+import { ModalService } from 'src/app/shared/components/modal/modal.service';
 
 @Component({
   selector: 'app-home',
@@ -30,14 +28,15 @@ export class HomeComponent implements OnInit {
   isVisibleHistory: boolean = false;
 
   isOpen$: Observable<boolean> = this.modalService.isOpen$;
+  isOpenAddressForm$: Observable<boolean> =
+    this.modalService.isOpenAddressForm$;
 
   constructor(
     private fb: FormBuilder,
     private httpService: HttpService,
     private favoriteCepService: FavoriteCepService,
     private router: Router,
-    private modalService: ModalService,
-    private stg: StorageService
+    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -71,12 +70,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  closeCepModal() {
+  closeModal() {
     this.modalService.close();
   }
 
   handleSearchSuccess(data: CodeProps): void {
     this.httpService.postHistory(this.cep?.value, false);
+    this.favoriteCepService.addToFavorites(data);
     this.cepRetrieved = data;
     this.cep?.reset();
   }
@@ -95,10 +95,10 @@ export class HomeComponent implements OnInit {
   }
 
   showHistory(): void {
-    if (
-      this.getHistoricalConsultations().length > 0 &&
-      this.stg.getItem(environment.chosenPlaces)
-    ) {
+    const historicalConsultations = this.getHistoricalConsultations();
+    const favoriteAddresses = this.favoriteCepService.getFavorites();
+
+    if (historicalConsultations.length > 0 || favoriteAddresses.length > 0) {
       this.isVisibleHistory = !this.isVisibleHistory;
       if (this.isVisibleHistory) {
         this.router.navigate(['/history']);
@@ -108,10 +108,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  clearHistory(): void {
-    this.httpService.clearHistoryFetch();
-    this.onSuccess('Sucesso', 'Histórico de favoritos removido com sucesso!');
-    this.isVisibleHistory = false;
+  createNewAddress(): void {
+    this.modalService.openAddressForm();
   }
 
   getHistoricalConsultations(): HistoryProps[] {
