@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { CodeProps } from "src/app/shared/models/code.model";
-import { HistoryProps } from "src/app/shared/models/history.model";
-import { environment } from "src/environments/environment";
-import { StorageService } from "src/app/core/services/storage.service";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { CodeProps } from 'src/app/shared/models/code.model';
+import { HistoryProps } from 'src/app/shared/models/history.model';
+import { environment } from 'src/environments/environment';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Injectable()
 export class HttpService {
-  apiEndpoint: string = "https://viacep.com.br/ws/$cep/json";
+  apiEndpoint: string = 'https://viacep.com.br/ws/$cep/json';
   historyToken: string = environment.historyToken;
 
   constructor(
@@ -18,7 +18,7 @@ export class HttpService {
 
   public search(cep: string): Observable<CodeProps> {
     return this.httpClient.get<CodeProps>(
-      this.apiEndpoint.replace("$cep", cep)
+      this.apiEndpoint.replace('$cep', cep)
     );
   }
 
@@ -36,15 +36,19 @@ export class HttpService {
 
   public postHistory(cep: string, erro: boolean): void {
     if (!erro) {
-      let historicoAtual: HistoryProps[] = this.getHistory();
+      let currentHistory: HistoryProps[] = this.getHistory();
 
-      historicoAtual.push({
-        cep: cep,
-        data: new Date().toJSON(),
-        erro: erro,
-      });
+      const cepAlreadyExist = currentHistory.some((item) => item.cep === cep);
 
-      this.setHistory(historicoAtual);
+      if (!cepAlreadyExist) {
+        currentHistory.push({
+          cep: cep,
+          data: new Date().toJSON(),
+          erro: erro,
+        });
+
+        this.setHistory(currentHistory);
+      }
     }
   }
 

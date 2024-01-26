@@ -1,11 +1,19 @@
+// Dependencies
 import { BrowserModule } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
+// Modules
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
+
+// Components
+import { AppComponent } from './app.component';
+
+// Services
+import { HttpService } from './core/services/http.service';
+import { FavoriteCepService } from './modules/home/services/favorites.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +25,7 @@ import { AppRoutingModule } from './app-routing.module';
     ReactiveFormsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [HttpService, FavoriteCepService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

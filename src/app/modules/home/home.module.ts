@@ -11,11 +11,7 @@ import { SelectBoxComponent } from 'src/app/shared/components/select-box/select-
 
 // Components
 import { HomeComponent } from './page/home.component';
-import { HistoryComponent } from '../history/page/history.component';
 import { CepCardComponent } from './components/cep-card/cep-card.component';
-
-// Services
-import { HttpService } from 'src/app/core/services/http.service';
 
 // Pipe
 import { JsonPipe } from 'src/app/core/pipes/json.pipe';
@@ -27,7 +23,6 @@ import { ModalComponent } from './components/modal/modal.component';
     SelectBoxComponent,
     SelectBoxComponent,
     InputComponent,
-    HistoryComponent,
     ModalComponent,
     CepCardComponent,
     JsonPipe,
@@ -39,7 +34,6 @@ import { ModalComponent } from './components/modal/modal.component';
     HomeRoutingModule,
     NgxMaskModule.forRoot(),
   ],
-  providers: [HttpService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HomeModule {}

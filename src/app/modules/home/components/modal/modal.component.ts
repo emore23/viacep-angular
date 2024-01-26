@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CodeProps } from 'src/app/shared/models/code.model';
+import { FavoriteCepService } from '../../services/favorites.service';
 
 @Component({
   selector: 'app-modal',
@@ -7,13 +8,13 @@ import { CodeProps } from 'src/app/shared/models/code.model';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
-  @Input() cepRetrieved: CodeProps | undefined;
+  @Input() cepRetrieved: CodeProps | null = null;
   @Input() isOpen: boolean | null = false;
 
   @Output() closeModalEvent = new EventEmitter<void>();
   @Output() favoriteModalEvent = new EventEmitter<void>();
 
-  constructor() {}
+  constructor(private favoriteCepService: FavoriteCepService) {}
 
   ngOnInit() {}
 
@@ -21,7 +22,8 @@ export class ModalComponent implements OnInit {
     this.closeModalEvent.emit();
   }
 
-  favorite(): void {
+  favoriteAddress(): void {
     this.favoriteModalEvent.emit();
+    this.favoriteCepService.addToFavorites(this.cepRetrieved);
   }
 }

@@ -1,11 +1,14 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { HistoryComponent } from "./page/history.component";
-import { CommonModule } from "@angular/common";
+// Dependencies
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Routes, RouterModule } from '@angular/router';
+
+// Components
+import { HistoryComponent } from './page/history.component';
 
 const routes: Routes = [
   {
-    path: "history",
+    path: '',
     component: HistoryComponent,
     children: [],
   },

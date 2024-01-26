@@ -54,8 +54,8 @@
     </div>
   </div>
 
-  <app-modal [isOpen]="isOpen$ | async" (closeModalEvent)="closeCepModal()">
-    <div>
+  <app-modal [isOpen]="isOpen$ | async" (closeModalEvent)="closeCepModal()" (favoriteModalEvent)="favoriteAddress()">
+    <div *ngIf="cepRetrieved">
       <h3 class="modal-title fs-5">Dados retornados</h3>
       <app-cep-card [cepRetrieved]="cepRetrieved"></app-cep-card>
     </div>

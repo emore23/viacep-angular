@@ -14,6 +14,7 @@ import { ModalService } from '../components/modal/modal.service';
 
 // Services
 import { HttpService } from 'src/app/core/services/http.service';
+import { FavoriteCepService } from '../services/favorites.service';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,7 @@ import { HttpService } from 'src/app/core/services/http.service';
 })
 export class HomeComponent implements OnInit {
   form!: FormGroup;
-  cepRetrieved!: CodeProps;
+  cepRetrieved: CodeProps | null = null;
   openModal: boolean = true;
   isVisibleHistory: boolean = false;
 
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private httpService: HttpService,
+    private favoriteCepService: FavoriteCepService,
     private router: Router,
     private modalService: ModalService
   ) {}
@@ -80,7 +82,7 @@ export class HomeComponent implements OnInit {
     this.httpService.postHistory(cepValue, true);
     this.onError(
       'Erro',
-      `Não foi possível localizar o CEP informado (${cepValue})`
+      `Não foi possível localizar o CEP informado ( ${cepValue} )`
     );
   }
 
@@ -110,8 +112,21 @@ export class HomeComponent implements OnInit {
     return this.httpService.fetchHistory();
   }
 
+  favoriteAddress(): void {
+    const favoritedSuccessfully = this.favoriteCepService.addToFavorites(
+      this.cepRetrieved
+    );
+
+    if (favoritedSuccessfully) {
+      this.onSuccess('Sucesso', 'Endereço favoritado com sucesso!');
+    } else {
+      this.onWarning('Aviso', 'Este endereço já foi favoritado anteriormente.');
+    }
+  }
+
   onError(title: string, message: string): void {
-    this.cepRetrieved.erro = true;
+    this.cepRetrieved = null;
+
     this.cep?.reset();
     Swal.fire(title, message, 'error');
   }

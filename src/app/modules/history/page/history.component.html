@@ -1,17 +1,18 @@
 <div class="container">
-  <div class="card bg-light">
-    <div class="card-body">
-      <h5 class="card-title">Consultation History</h5>
-
-      <app-history-table
-        [history]="history"
-        (restartSearchEvent)="restartSearch($event)"
-      ></app-history-table>
+  <div class="header">
+    <button class="btn btn-primary" (click)="goBack()">Voltar</button>
+    <div class="card bg-light">
+      <div class="flex card-body text-center">
+        <h3 class="card-title">Histórico de Favoritos</h3>
+      </div>
     </div>
+  </div>
 
-    <div class="card-footer text-muted">
-      The consultation history is stored in the browser, so clearing browser
-      data will result in data loss.
-    </div>
+  <div class="cards">
+    <app-city-card
+      *ngFor="let item of favorites"
+      [cepRetrieved]="item"
+      (removeFromFavoritesEvent)="removeFromFavorites($event)"
+    ></app-city-card>
   </div>
 </div>
