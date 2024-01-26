@@ -2,22 +2,27 @@ import { Injectable } from '@angular/core';
 import { CodeProps } from 'src/app/shared/models/code.model';
 import { environment } from 'src/environments/environment';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class FavoriteCepService {
   chosenPlaces: string = environment.chosenPlaces;
+  private favoritesSubject = new Subject<void>();
 
   constructor(private storageService: StorageService) {}
 
-  saveAddress(address: any): void {
-    const favoritedAddresses = this.getFavorites();
-
-    favoritedAddresses.push(address);
-
-    this.setFavorites(favoritedAddresses);
+  subscribeToFavoritesChanges(): Observable<void> {
+    return this.favoritesSubject.asObservable();
   }
 
-  public addToFavorites(cepRetrieved: CodeProps | any): boolean {
+  saveAddress(address: any): void {
+    const favoritedAddresses = this.getFavorites();
+    favoritedAddresses.push(address);
+    this.setFavorites(favoritedAddresses);
+    this.favoritesSubject.next();
+  }
+
+  addToFavorites(cepRetrieved: CodeProps | any): boolean {
     if (!cepRetrieved || !this.isValidCepRetrieved(cepRetrieved)) {
       return false;
     }
@@ -37,6 +42,7 @@ export class FavoriteCepService {
 
       favoriteAddresses.push(newFavorite);
       this.setFavorites(favoriteAddresses);
+      this.favoritesSubject.next();
 
       return true;
     }
@@ -44,24 +50,22 @@ export class FavoriteCepService {
     return false;
   }
 
-  private isValidCepRetrieved(cepRetrieved: CodeProps): boolean {
-    return !!(
-      cepRetrieved &&
-      cepRetrieved.cep &&
-      cepRetrieved.localidade &&
-      cepRetrieved.bairro &&
-      cepRetrieved.uf
-    );
-  }
-  private updateTokenKey(): void {
+  removeFromFavorites(favoriteToRemove: CodeProps): void {
     const favoriteAddresses: CodeProps[] = this.getFavorites();
+    const indexToRemove = favoriteAddresses.findIndex(
+      (fav) => fav.cep === favoriteToRemove.cep
+    );
 
-    if (favoriteAddresses.length === 0) {
-      this.storageService.removeItem(this.chosenPlaces);
+    if (indexToRemove !== -1) {
+      favoriteAddresses.splice(indexToRemove, 1);
+      this.setFavorites(favoriteAddresses);
+      this.favoritesSubject.next();
     }
+
+    this.updateTokenKey();
   }
 
-  public getFavorites(): CodeProps[] {
+  getFavorites(): CodeProps[] {
     const favorites = this.storageService.getItem<CodeProps[]>(
       this.chosenPlaces
     );
@@ -74,21 +78,29 @@ export class FavoriteCepService {
     return favorites;
   }
 
-  public setFavorites(favorites: CodeProps[]): void {
+  private setFavorites(favorites: CodeProps[]): void {
     this.storageService.setItem(this.chosenPlaces, favorites);
   }
 
-  public removeFromFavorites(favoriteToRemove: CodeProps): void {
-    const favoriteAddresses: CodeProps[] = this.getFavorites();
-    const indexToRemove = favoriteAddresses.findIndex(
-      (fav) => fav.cep === favoriteToRemove.cep
+  private isValidCepRetrieved(cepRetrieved: CodeProps): boolean {
+    return !!(
+      cepRetrieved &&
+      cepRetrieved.cep &&
+      cepRetrieved.localidade &&
+      cepRetrieved.bairro &&
+      cepRetrieved.uf
     );
+  }
 
-    if (indexToRemove !== -1) {
-      favoriteAddresses.splice(indexToRemove, 1);
-      this.setFavorites(favoriteAddresses);
+  private updateTokenKey(): void {
+    const favoriteAddresses: CodeProps[] = this.getFavorites();
+
+    if (favoriteAddresses.length === 0) {
+      this.storageService.removeItem(this.chosenPlaces);
     }
+  }
 
-    this.updateTokenKey();
+  getFavoritesSubject(): Subject<void> {
+    return this.favoritesSubject;
   }
 }

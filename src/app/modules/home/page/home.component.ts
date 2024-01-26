@@ -76,7 +76,6 @@ export class HomeComponent implements OnInit {
 
   handleSearchSuccess(data: CodeProps): void {
     this.httpService.postHistory(this.cep?.value, false);
-    this.favoriteCepService.addToFavorites(data);
     this.cepRetrieved = data;
     this.cep?.reset();
   }

@@ -4,9 +4,10 @@ import {
   Output,
   OnInit,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { FavoriteCepService } from 'src/app/core/services/favorites.service';
 import { ModalService } from 'src/app/shared/components/modal/modal.service';
 import { CodeProps } from 'src/app/shared/models/code.model';
@@ -17,10 +18,12 @@ import Swal from 'sweetalert2';
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss'],
 })
-export class HistoryComponent implements OnInit {
+export class HistoryComponent implements OnInit, OnDestroy {
   @Output() restartSearchEvent = new EventEmitter<Event>();
   isOpenAddressForm$: Observable<boolean> =
     this.modalService.isOpenAddressForm$;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
@@ -33,6 +36,19 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.favorites = this.favoriteCepService.getFavorites();
+
+    this.favoriteCepService
+      .subscribeToFavoritesChanges()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.favorites = this.favoriteCepService.getFavorites();
+        this.cdr.detectChanges();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   closeModal() {

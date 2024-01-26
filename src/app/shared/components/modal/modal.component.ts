@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FavoriteCepService } from 'src/app/core/services/favorites.service';
 import { CodeProps } from 'src/app/shared/models/code.model';
+import { ModalService } from './modal.service';
 
 @Component({
   selector: 'app-modal',
@@ -16,9 +17,16 @@ export class ModalComponent implements OnInit {
 
   showButtons: boolean = false;
 
-  constructor(private favoriteCepService: FavoriteCepService) {}
+  constructor(
+    private favoriteCepService: FavoriteCepService,
+    private modalService: ModalService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.modalService.showButtons$.subscribe((showButtons) => {
+      this.showButtons = showButtons;
+    });
+  }
 
   close(): void {
     this.closeModalEvent.emit();
