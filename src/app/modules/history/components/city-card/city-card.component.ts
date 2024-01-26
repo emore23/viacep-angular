@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FavoriteCepService } from 'src/app/modules/home/services/favorites.service';
+import { FavoriteCepService } from 'src/app/core/services/favorites.service';
 import { CodeProps } from 'src/app/shared/models/code.model';
 
 @Component({

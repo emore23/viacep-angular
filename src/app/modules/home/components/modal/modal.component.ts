@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CodeProps } from 'src/app/shared/models/code.model';
-import { FavoriteCepService } from '../../services/favorites.service';
+import { FavoriteCepService } from '../../../../core/services/favorites.service';
 
 @Component({
   selector: 'app-modal',

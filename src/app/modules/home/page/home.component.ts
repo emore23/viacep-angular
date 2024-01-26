@@ -14,7 +14,9 @@ import { ModalService } from '../components/modal/modal.service';
 
 // Services
 import { HttpService } from 'src/app/core/services/http.service';
-import { FavoriteCepService } from '../services/favorites.service';
+import { FavoriteCepService } from '../../../core/services/favorites.service';
+import { environment } from 'src/environments/environment';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +36,8 @@ export class HomeComponent implements OnInit {
     private httpService: HttpService,
     private favoriteCepService: FavoriteCepService,
     private router: Router,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private stg: StorageService
   ) {}
 
   ngOnInit(): void {
@@ -92,7 +95,10 @@ export class HomeComponent implements OnInit {
   }
 
   showHistory(): void {
-    if (this.getHistoricalConsultations().length > 0) {
+    if (
+      this.getHistoricalConsultations().length > 0 &&
+      this.stg.getItem(environment.chosenPlaces)
+    ) {
       this.isVisibleHistory = !this.isVisibleHistory;
       if (this.isVisibleHistory) {
         this.router.navigate(['/history']);

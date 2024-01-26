@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 
 // Services
 import { HttpService } from './core/services/http.service';
-import { FavoriteCepService } from './modules/home/services/favorites.service';
+import { FavoriteCepService } from './core/services/favorites.service';
 
 @NgModule({
   declarations: [AppComponent],

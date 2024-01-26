@@ -7,9 +7,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 export class FavoriteCepService {
   chosenPlaces: string = environment.chosenPlaces;
 
-  constructor(
-    private storageService: StorageService
-  ) {}
+  constructor(private storageService: StorageService) {}
 
   public addToFavorites(cepRetrieved: CodeProps | any): boolean {
     if (!cepRetrieved || !this.isValidCepRetrieved(cepRetrieved)) {
@@ -47,6 +45,13 @@ export class FavoriteCepService {
       cepRetrieved.uf
     );
   }
+  private updateTokenKey(): void {
+    const favoriteAddresses: CodeProps[] = this.getFavorites();
+
+    if (favoriteAddresses.length === 0) {
+      this.storageService.removeItem(this.chosenPlaces);
+    }
+  }
 
   public getFavorites(): CodeProps[] {
     const favorites = this.storageService.getItem<CodeProps[]>(
@@ -67,9 +72,15 @@ export class FavoriteCepService {
 
   public removeFromFavorites(favoriteToRemove: CodeProps): void {
     const favoriteAddresses: CodeProps[] = this.getFavorites();
-    const updatedFavorites = favoriteAddresses.filter(
-      (favorite) => favorite.cep !== favoriteToRemove.cep
+    const indexToRemove = favoriteAddresses.findIndex(
+      (fav) => fav.cep === favoriteToRemove.cep
     );
-    this.setFavorites(updatedFavorites);
+
+    if (indexToRemove !== -1) {
+      favoriteAddresses.splice(indexToRemove, 1);
+      this.setFavorites(favoriteAddresses);
+    }
+
+    this.updateTokenKey();
   }
 }

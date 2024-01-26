@@ -12,7 +12,7 @@
     <app-city-card
       *ngFor="let item of favorites"
       [cepRetrieved]="item"
-      (removeFromFavoritesEvent)="removeFromFavorites($event)"
+      (removeFromFavoritesEvent)="removeFromFavorites(item)"
     ></app-city-card>
   </div>
 </div>

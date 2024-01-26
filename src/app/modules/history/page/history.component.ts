@@ -6,8 +6,8 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { FavoriteCepService } from 'src/app/core/services/favorites.service';
 import { CodeProps } from 'src/app/shared/models/code.model';
-import { FavoriteCepService } from '../../home/services/favorites.service';
 
 @Component({
   selector: 'app-history',

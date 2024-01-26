@@ -5,11 +5,13 @@ import { HistoryRoutingModule } from "./history-routing.module";
 import { HistoryComponent } from "./page/history.component";
 import { DatePipe } from "src/app/core/pipes/date.pipe";
 import { CityCardComponent } from "./components/city-card/city-card.component";
+import { FavoritesFilterPipe } from "src/app/core/pipes/favorites-filter.pipe";
 
 @NgModule({
   declarations: [
     HistoryComponent,
     CityCardComponent,
+    FavoritesFilterPipe,
     DatePipe,
   ],
   imports: [CommonModule, HistoryRoutingModule],
