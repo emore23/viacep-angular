@@ -4,16 +4,14 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 
+// Components
+import { HomeComponent } from './page/home.component';
 import { HomeRoutingModule } from './home-routing.module';
-
+import { CepCardComponent } from './components/cep-card/cep-card.component';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
 import { SelectBoxComponent } from 'src/app/shared/components/select-box/select-box.component';
 
-// Components
-import { HomeComponent } from './page/home.component';
-import { CepCardComponent } from './components/cep-card/cep-card.component';
-
-// Pipe
+// Core
 import { JsonPipe } from 'src/app/core/pipes/json.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 

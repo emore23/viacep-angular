@@ -1,4 +1,7 @@
+// Dependencies
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+
+// Helpers
 import formatCEP from "src/app/core/helpers/mask";
 
 @Component({

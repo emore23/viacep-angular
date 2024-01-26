@@ -1,6 +1,11 @@
+// Dependencies
 import { Component, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+
+// Models
 import { CodeProps } from 'src/app/shared/models/code.model';
+
+// Services
 import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({

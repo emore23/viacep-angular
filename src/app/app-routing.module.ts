@@ -1,8 +1,6 @@
+// Dependencies
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { HomeRoutingModule } from './modules/home/home-routing.module';
-import { HistoryRoutingModule } from './modules/history/history-routing.module';
 
 const routes: Routes = [
   {

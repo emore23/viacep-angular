@@ -1,5 +1,8 @@
+// Dependencies
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FavoriteCepService } from 'src/app/core/services/favorites.service';
+
+// Models
 import { CodeProps } from 'src/app/shared/models/code.model';
 
 @Component({

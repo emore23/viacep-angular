@@ -1,4 +1,7 @@
+// Dependencies
 import { Pipe, PipeTransform } from '@angular/core';
+
+// Models
 import { CodeProps } from 'src/app/shared/models/code.model';
 
 @Pipe({

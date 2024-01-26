@@ -1,7 +1,10 @@
+// Dependencies
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './page/home.component';
 import { CommonModule } from '@angular/common';
+import { Routes, RouterModule } from '@angular/router';
+
+// Components
+import { HomeComponent } from './page/home.component';
 
 const routes: Routes = [
   {

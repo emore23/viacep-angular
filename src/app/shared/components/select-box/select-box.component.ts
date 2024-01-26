@@ -1,4 +1,7 @@
+// Dependencies
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+// Models
 import { OptionProps } from '../../models/search-options.model';
 
 @Component({
