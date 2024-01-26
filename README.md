@@ -1,6 +1,6 @@
 # Viacep Angular
 
-> O projeto possuí a capacidade de adicionar endereços aos favoritos, pesquisar por CEPS e também adicionalos aos favoritos. Tudo sendo salvo em localStorage, também gerando um histórico de pesquisas feitas.
+> O projeto possuí a capacidade de adicionar endereços aos favoritos, pesquisar por CEPS e também adicionar aos favoritos. Tudo sendo salvo em localStorage, também gerando um histórico de pesquisas feitas.
 
 ## 🚀 Começando
 
