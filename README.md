@@ -25,7 +25,7 @@ Essas instruções permitirão que você obtenha uma cópia do projeto em opera�
 ## 🛠️ Construído com
 
 - [Angular](https://angular.io/) - O framework web utilizado
-- [PlayWright](https://playwright.dev/) - Biblioteca de testes E2E
+- [Playwright](https://playwright.dev/) - Biblioteca de testes E2E
 - [Bootstrap](https://getbootstrap.com/) - Usado para estilização de componentes
 
 ## ✒️ Autores
