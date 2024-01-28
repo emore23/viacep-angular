@@ -1,3 +1,4 @@
+// Dependencies
 import {
   Component,
   EventEmitter,
@@ -6,12 +7,16 @@ import {
   ChangeDetectorRef,
   OnDestroy,
 } from '@angular/core';
+import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
+
+// Services
 import { FavoriteCepService } from 'src/app/core/services/favorites.service';
 import { ModalService } from 'src/app/shared/components/modal/modal.service';
+
+// Models
 import { CodeProps } from 'src/app/shared/models/code.model';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-history',
