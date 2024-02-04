@@ -41,4 +41,4 @@ Algumas melhorias para o projeto:
 - Husky para obtermos conventional commits
 - Herenciamento global para aplicação (ngxs ou outro)
 - Testes unitários
-- Fazer microcomponentes para input e button serem reutilizáveis
+- Fazer componente para input ser reutilizável ✅
