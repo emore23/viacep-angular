@@ -1,24 +1,30 @@
 // Dependencies
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
-// Helpers
-import formatCEP from "src/app/core/helpers/mask";
+// Models
+import { InputProps } from '../../models/input.model';
 
 @Component({
-  selector: "app-input",
-  templateUrl: "./input.component.html",
-  styleUrls: ["./input.component.scss"],
+  selector: 'app-input',
+  template: `
+    <div class="form-group">
+      <label>{{ inputData.inputProps.description }}</label>
+
+      <input
+        type="text"
+        class="form-control"
+        [id]="inputData.inputProps.id"
+        [placeholder]="inputData.inputProps.placeholder"
+        [formControl]="control"
+      />
+    </div>
+  `,
 })
-export class InputComponent implements OnInit {
-  code!: string;
-  @Output() searchClicked = new EventEmitter<string>();
+export class InputComponent {
+  @Input() control: FormControl | any;
+
+  @Input() inputData!: InputProps;
 
   constructor() {}
-
-  ngOnInit() {}
-
-  onInputChange(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    this.code = formatCEP(inputElement.value);
-  }
 }
