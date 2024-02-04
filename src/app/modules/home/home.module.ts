@@ -8,19 +8,16 @@ import { NgxMaskModule } from 'ngx-mask';
 import { HomeComponent } from './page/home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { CepCardComponent } from './components/cep-card/cep-card.component';
-import { InputComponent } from 'src/app/shared/components/input/input.component';
-import { SelectBoxComponent } from 'src/app/shared/components/select-box/select-box.component';
 
 // Core
 import { JsonPipe } from 'src/app/core/pipes/json.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SearchInputComponent } from 'src/app/shared/components/search-input/search-input.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    SelectBoxComponent,
-    SelectBoxComponent,
-    InputComponent,
+    SearchInputComponent,
     CepCardComponent,
     JsonPipe,
   ],

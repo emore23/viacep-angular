@@ -1,0 +1,14 @@
+.card {
+  width: 300px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 12px;
+
+  button {
+    width: 100%;
+  }
+}

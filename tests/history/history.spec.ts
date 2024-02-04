@@ -9,7 +9,7 @@ test.describe('History Page', async () => {
   });
 
   const newAddress = {
-    cep: '90450-045',
+    cep: '90450045',
     logradouro: 'Avenida Coronel Lucas de Oliveira',
     complemento: 'Lado ímpar',
     bairro: 'Mont Serrat',
@@ -64,7 +64,7 @@ test.describe('History Page', async () => {
     await page.click('.btn-outline-info');
     await page.waitForSelector('.modal', { state: 'visible' });
 
-    await page.fill('input[id=cep]', newAddress.cep);
+    await page.fill('input[formControlName=cep]', newAddress.cep);
     await page.fill('input[formControlName=logradouro]', newAddress.logradouro);
     await page.fill(
       'input[formControlName=complemento]',

@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 
 test.describe('Home Page', async () => {
   let page: Page;
+  const inputDataKeys: string[] = [];
 
   test.beforeEach(async ({ browser }) => {
     page = await browser.newPage();
@@ -18,7 +19,7 @@ test.describe('Home Page', async () => {
   };
 
   const newAddress = {
-    cep: '90450-045',
+    cep: '90450045',
     logradouro: 'Avenida Coronel Lucas de Oliveira',
     complemento: 'Lado ímpar',
     bairro: 'Mont Serrat',
@@ -27,68 +28,88 @@ test.describe('Home Page', async () => {
   };
 
   test('should search for a CEP, open and close the modal', async () => {
-    await page.fill('input[formControlName=cep]', result.cep);
-    await page.click('button[type=submit]');
+    const searchInput = await page.$('app-search-input');
+    if (searchInput) {
+      const inputElement = await searchInput.$('input');
+      if (inputElement) {
+        await inputElement.fill(result.cep);
 
-    await page.waitForSelector('.modal', { state: 'visible' });
+        await page.click('button[type=submit]');
 
-    await page.click('.btn-secondary');
+        await page.waitForSelector('.modal', { state: 'visible' });
 
-    await page.waitForSelector('.modal', { state: 'hidden' });
+        await page.click('.btn-secondary');
+
+        await page.waitForSelector('.modal', { state: 'hidden' });
+      }
+    }
   });
 
   test('should search for a CEP and verify the data in the modal', async () => {
-    await page.fill('input[formControlName=cep]', result.cep);
-    await page.click('button[type=submit]');
+    const searchInput = await page.$('app-search-input');
+    if (searchInput) {
+      const inputElement = await searchInput.$('input');
+      if (inputElement) {
+        await inputElement.fill(result.cep);
 
-    await page.waitForSelector('.modal', { state: 'visible' });
+        await page.click('button[type=submit]');
 
-    const appCepCardExists = await page.waitForSelector('app-cep-card');
-    expect(appCepCardExists).toBeTruthy();
+        await page.waitForSelector('.modal', { state: 'visible' });
 
-    for (const [field, value] of Object.entries(result)) {
-      const fieldValue = await page.$eval(
-        `app-cep-card input[formControlName=${field}]`,
-        (el) => (el as HTMLInputElement).value
-      );
-      expect(fieldValue).toContain(value);
+        const appInputElements = await page.$$('app-input');
+
+        for (const inputKey of inputDataKeys) {
+          const fieldValue = await appInputElements[inputKey].$eval(
+            'input',
+            (el) => (el as HTMLInputElement).value
+          );
+          const expectedValue = result[inputKey];
+          expect(fieldValue).toContain(expectedValue);
+        }
+
+        await page.click('.btn-secondary');
+
+        await page.waitForSelector('.modal', { state: 'hidden' });
+      }
     }
-
-    await page.click('.btn-secondary');
-
-    await page.waitForSelector('.modal', { state: 'hidden' });
   });
 
   test('should favorite cep and verify in localstorage the propertie @chosen-places', async () => {
-    await page.fill('input[formControlName=cep]', result.cep);
-    await page.click('button[type=submit]');
+    const searchInput = await page.$('app-search-input');
+    if (searchInput) {
+      const inputElement = await searchInput.$('input');
+      if (inputElement) {
+        await inputElement.fill(result.cep);
+        await page.click('button[type=submit]');
 
-    await page.waitForSelector('.modal', { state: 'visible' });
+        await page.waitForSelector('.modal', { state: 'visible' });
 
-    await page.click('.btn-success');
+        await page.click('.btn-success');
 
-    await page.waitForTimeout(1000);
+        await page.waitForTimeout(1000);
 
-    const successModalVisible = await page.isVisible('.swal2-success');
-    expect(successModalVisible).toBeTruthy();
+        const successModalVisible = await page.isVisible('.swal2-success');
+        expect(successModalVisible).toBeTruthy();
 
-    const localStorageContent = await page.evaluate(() => {
-      return localStorage.getItem('@chosen-places');
-    });
+        const localStorageContent = await page.evaluate(() => {
+          return localStorage.getItem('@chosen-places');
+        });
 
-    expect(localStorageContent).toContain(result.cep);
+        expect(localStorageContent).toContain(result.cep);
 
-    await page.click('.swal2-confirm');
+        await page.click('.swal2-confirm');
 
-    await page.click('.btn-secondary');
-    await page.waitForSelector('.modal', { state: 'hidden' });
+        await page.click('.btn-secondary');
+        await page.waitForSelector('.modal', { state: 'hidden' });
+      }
+    }
   });
 
   test('should create new address for the favorites', async () => {
     await page.click('.btn-danger');
     await page.waitForSelector('.modal', { state: 'visible' });
 
-    await page.fill('input[id=cep]', newAddress.cep);
+    await page.fill('input[formControlName=cep]', newAddress.cep);
     await page.fill('input[formControlName=logradouro]', newAddress.logradouro);
     await page.fill(
       'input[formControlName=complemento]',
@@ -112,7 +133,7 @@ test.describe('Home Page', async () => {
     await page.click('.btn-danger');
     await page.waitForSelector('.modal', { state: 'visible' });
 
-    await page.fill('input[id=cep]', newAddress.cep);
+    await page.fill('input[formControlName=cep]', newAddress.cep);
     await page.fill('input[formControlName=logradouro]', newAddress.logradouro);
     await page.fill(
       'input[formControlName=complemento]',

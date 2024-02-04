@@ -1,74 +1,15 @@
-<div class="card bg-indigo-800">
-  <div class="card-body">
-    <h5 class="card-title">Dados retornados</h5>
-
-    <form [formGroup]="form">
-      <div class="form-group">
-        <label>CEP</label>
-        <input type="text" class="form-control" formControlName="cep" />
-      </div>
-
+<form [formGroup]="form">
+  <h5 class="text-secondary">Dados retornados</h5>
+  <ng-container *ngFor="let inputKey of inputDataKeys">
+    <ng-container *ngIf="inputData[inputKey]">
       <div class="row">
-        <div class="col-md-8">
-          <div class="form-group">
-            <label>Logradouro</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="logradouro"
-            />
-            <small *ngIf="hasComplemento()" class="form-text text-muted"
-              >Complemento: {{ complemento?.value }}</small
-            >
-          </div>
+        <div class="col-md-{{ inputData[inputKey].columnSize || '12' }}">
+          <app-input
+            [control]="form.get(inputData[inputKey].controlName)"
+            [inputData]="inputData[inputKey]"
+          ></app-input>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group">
-            <label>Bairro</label>
-            <input type="text" class="form-control" formControlName="bairro" />
-          </div>
-        </div>
-        <div class="col-md-5">
-          <div class="form-group">
-            <label>Cidade</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="localidade"
-            />
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>UF</label>
-            <input type="text" class="form-control" formControlName="uf" />
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>Unidade</label>
-            <input type="text" class="form-control" formControlName="unidade" />
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>IBGE</label>
-            <input type="text" class="form-control" formControlName="ibge" />
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>GIA</label>
-            <input type="text" class="form-control" formControlName="gia" />
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
+    </ng-container>
+  </ng-container>
+</form>

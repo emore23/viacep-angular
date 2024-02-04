@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 
 // Models
 import { CodeProps } from 'src/app/shared/models/code.model';
+import { SearchInputProps } from 'src/app/shared/models/search-input.model';
 
 // Components
 import { HistoryProps } from 'src/app/shared/models/history.model';
@@ -22,7 +23,7 @@ import { ModalService } from 'src/app/shared/components/modal/modal.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  form!: FormGroup;
+  form!: FormGroup | any;
   cepRetrieved: CodeProps | null = null;
   openModal: boolean = true;
   isVisibleHistory: boolean = false;
@@ -30,6 +31,11 @@ export class HomeComponent implements OnInit {
   isOpen$: Observable<boolean> = this.modalService.isOpen$;
   isOpenAddressForm$: Observable<boolean> =
     this.modalService.isOpenAddressForm$;
+
+  searchInputProps: SearchInputProps = {
+    id: 'cep',
+    placeholder: 'Começe digitando um CEP válido!',
+  };
 
   constructor(
     private fb: FormBuilder,
